@@ -14,7 +14,7 @@ The [project we are talking about](https://github.com/haesleinhuepf/run_jython_s
 ## MyPlugin.java
 This is a very minimal ImageJ2 plugin I'm using just to demonstrate that the plugin is executed and runs on the right image:
 
-```Java
+```java
 @Plugin(type = Command.class, menuPath = "Plugins>MyPlugin")
 public class MyPlugin implements Command {
     @Parameter
@@ -34,7 +34,7 @@ public class MyPlugin implements Command {
 ## MyModule.java
 Furthermore, a minimal Java Class should allow us later to show the capabilities of the IDEs auto completion functionality:
 
-```Java
+```java
 public class MyModule {
     public void myMethod() {
         System.out.println("myMethod executed.");
@@ -69,7 +69,7 @@ When writing this script, I already saw that my IDE allows auto completion:
 How do we run the Jython script from within the IDE? And how can we ensure that my classes like `MyModule` are compiled and available during runtime?
 The answer delivers the `ScriptingService` of ImageJ2. The whole main function which runs ImageJ, creates a test image and calls the script looks like this:
 
-```Java
+```java
 public class Main {
     public static void main(String... args) throws FileNotFoundException, ScriptException {
         // start ImageJ
