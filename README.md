@@ -91,7 +91,7 @@ The output together with the opening windows look like that:
 
 ![Image](images/logoutput.png)
 
-`myMethod` is executed, just like `MyPlugin` and the plugin accesses the right image. And all that just by running the `main` function. I'm not yet fully aware of all the awesome thing I can do now from within my IDE! Awesome!
+`myMethod` is executed, just like `MyPlugin` and the plugin accesses the right image. And all that just by running the `main` function. I'm not yet fully aware of all the awesome things I can do now from within my IDE. Awesome!
 
 Feel free to try the procedure with your IDE. Checkout the (full code)[https://github.com/haesleinhuepf/run_jython_scripts_from_ide].
 
