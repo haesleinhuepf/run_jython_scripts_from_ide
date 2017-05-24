@@ -30,7 +30,7 @@ public class MyPlugin implements Command {
     }
 }
 ```
-
+ 
 # MyModule.java
 Furthermore, a minimal Java Class should allow us later to show the capabilities of the IDEs auto completion functionality:
 
