@@ -1,37 +1,99 @@
-## Welcome to GitHub Pages
+## How to run ImageJs Jython Scripts from within an IDE
 
-You can use the [editor on GitHub](https://github.com/haesleinhuepf/run_jython_scripts_from_ide/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Did you ever work on a Jython script for ImageJ and in parallel on a Java based ImageJ Plugin?
+This is a bit anoying, right? After every change in the Java code, you need to deploy the jar file to your ImageJ/Fiji installation and restart ImageJ.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+With ImageJ2, there is a way to edit Jython scripts and Java code in parallel and run it together with a single click!
 
-### Markdown
+But one step after the other. Let's start with the used IDE. In principle, I guess the following will work with any IDE such as Eclipse or Intellij. I tested with Intellij 2017.01 with Python support installed.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+The project we are talking about looks like this:
 
-```markdown
-Syntax highlighted code block
+![Image](images/projectstructure.png)
 
-# Header 1
-## Header 2
-### Header 3
+# MyPlugin.java
+This is the minimal ImageJ2 plugin I'm using to demonstrate the proof of concept:
 
-- Bulleted
-- List
+```Java
+@Plugin(type = Command.class, menuPath = "Plugins>MyPlugin")
+public class MyPlugin implements Command {
+    @Parameter
+    ImagePlus input;
 
-1. Numbered
-2. List
+    @Parameter
+    ImageJ ij;
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+    @Override
+    public void run() {
+        ij.log().info("MyPlugin executed.");
+        ij.log().info("Image: " + input.getTitle());
+    }
+}
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+# MyModule.java
+Furthermore, a minimal Java Class should allow us later to show the capabilities of the IDEs auto completion functionality:
 
-### Jekyll Themes
+```Java
+public class MyModule {
+    public void myMethod() {
+        System.out.println("myMethod executed.");
+    }
+}
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/haesleinhuepf/run_jython_scripts_from_ide/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+# imagej_script.py
+This is the actual ImageJ jython script
 
-### Support or Contact
+```python
+# @ImagePlus input
+# @ImageJ ij
+from de.mpicbg.scf.scripting import MyModule
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+# work with classes and methods from java directory
+MyModule().myMethod()
+
+# execute a plugin
+from ij import IJ;
+input.show()
+IJ.run(input, "MyPlugin", "")
+```
+
+When writing it, I already saw that my IDE allows auto completion:
+
+![Image](images/autocomplete.png)
+
+Isn't that awesome?
+
+# Main.java
+
+Last but not least: How do we run the jython script from within the IDE? The answer is the `ScriptingService` of ImageJ2.
+The whole main function which runs ImageJ, creates a test image and calls the script looks like this:
+
+```Java
+public class Main {
+    public static void main(String... args) throws FileNotFoundException, ScriptException {
+        // start ImageJ
+        ImageJ ij = new ImageJ();
+        ij.ui().showUI();
+
+        // get some image to process
+        Img<ShortType> testImage = ArrayImgs.shorts(new long[]{100, 100});
+        ImagePlus imp = ImageJFunctions.wrap(testImage, "TestImage");
+
+        // run the script, hand over image and imagej instances
+        ij.script().run(new File("src/main/jython/imagej_script.py"), false, new Object[]{"input", imp, "ij", ij});
+
+    }
+}
+```
+
+And the output together with the opening windows look like that:
+
+![Image](images/logoutput.png)
+
+Thus, finally I will spare a lot of deployment time in the future.
+
+Feedback welcome: rhaase@mpi-cbg.de
+
+Happy coding!
