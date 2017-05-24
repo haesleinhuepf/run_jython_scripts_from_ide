@@ -1,4 +1,4 @@
-# How to run ImageJs Jython Scripts from within an IDE
+# How to develop, deploy and run #mageJ/Fiji scripts and Java plugins within your IDE simultaneously
 
 Did you ever work on a Jython script for ImageJ and in parallel on a Java based ImageJ Plugin?
 This is a bit annoying, right? After every change in the Java code, you need to deploy the jar file to your ImageJ/Fiji installation. Afterwards, you need to restart ImageJ, load the script, run it. Then you realise, that you just forgot to remove these 10 billion debug traces and the procedure starts from the beginning.
