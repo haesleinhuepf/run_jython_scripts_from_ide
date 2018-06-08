@@ -11,6 +11,10 @@ The [project we are talking about](https://github.com/haesleinhuepf/run_jython_s
 
 ![Image](images/projectstructure.png)
 
+### Eclipse
+
+For Python support in Eclipse install [PyDev](http://www.pydev.org/) from the [Eclipse Marketplace](http://marketplace.eclipse.org/node/114).
+
 ## MyPlugin.java
 This is a very minimal ImageJ2 plugin I'm using just to demonstrate that the plugin is executed and runs on the right image:
 
