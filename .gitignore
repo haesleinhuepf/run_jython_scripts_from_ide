@@ -1,2 +1,8 @@
 /.idea/
 /target/
+
+# Eclipse
+.classpath
+.project
+.pydevproject
+.settings/
