@@ -71,7 +71,7 @@ When writing this script, I already saw that my IDE allows auto completion:
 
 ## Main.java
 How do we run the Jython script from within the IDE? And how can we ensure that my classes like `MyModule` are compiled and available during runtime?
-The answer delivers the `ScriptingService` of ImageJ2. The whole main function which runs ImageJ, creates a test image and calls the script looks like this:
+The SciJava `ScriptService` is the answer. The whole main function which runs ImageJ, creates a test image and calls the script looks like this:
 
 ```java
 public class Main {
